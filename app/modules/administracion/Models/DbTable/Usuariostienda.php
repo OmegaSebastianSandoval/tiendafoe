@@ -90,7 +90,7 @@ class Administracion_Model_DbTable_Usuariostienda extends Db_Table
 		$direccion = $data['direccion'];
 		$ciudad_documento = $data['ciudad_documento'];
 		$ciudad_residencia = $data['ciudad_residencia'];
-		$fecha = $data['fecha'];
+		$fecha = date('Y-m-d H:m:s');
 		$fecha_nacimiento = $data['fecha_nacimiento'];
 		$query = "UPDATE usuarios SET   nombre = '$nombre', correo = '$correo', celular = '$celular', telefono = '$telefono', direccion = '$direccion',ciudad_documento = '$ciudad_documento', ciudad_residencia = '$ciudad_residencia', fecha = '$fecha', fecha_nacimiento = '$fecha_nacimiento' WHERE id = '" . $id . "'";
 		$res = $this->_conn->query($query);

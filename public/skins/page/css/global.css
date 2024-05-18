@@ -1326,6 +1326,8 @@ CATEGORIAS FIN
   text-decoration: none;
   transition: all 300ms;
   font-weight: 500;
+  cursor: pointer;
+  width: fit-content;
 }
 
 .btn-azul:hover {
@@ -1355,6 +1357,28 @@ CATEGORIAS FIN
   padding: 15px 0;
   background-color: var(--verde);
 }
+
+
+.form-confirmar {
+  max-width: 75ch;
+  margin: auto;
+}
+.textoNegro div strong{
+  color: var(--blueC);
+  font-weight: 700;
+}
+
+ .form-check-label{
+  color: var(--gris);
+  cursor: pointer;
+  font-weight: 700;
+  transition: all 300ms ease-in-out;
+}
+ .form-check-label:hover{
+  color: var(--blueC);
+
+}
+
 
 /* *********************
  CARRITO  FIN
@@ -1398,19 +1422,20 @@ CATEGORIAS FIN
 
 }
 
-.form-tienda .content-input select{
+.form-tienda .content-input select {
   background-color: var(--white) !important;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
-  
+
   background: url('https://cdn1.iconfinder.com/data/icons/arrows-vol-1-4/24/dropdown_arrow-512.png');
   background-repeat: no-repeat;
   background-size: 15px 15px;
   background-position: right;
   background-origin: content-box;
 }
+
 .form-tienda .content-input {
   margin-bottom: 5px;
 }

@@ -26,6 +26,8 @@ class Page_perfilController extends Page_mainController
 
   public function updateAction()
   {
+  error_reporting(E_ALL);
+
     $this->setLayout('blanco');
     $id = $this->_getSanitizedParam("id");
     $usuarioModel = new Administracion_Model_DbTable_Usuariostienda();

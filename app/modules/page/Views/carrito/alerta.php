@@ -17,7 +17,7 @@ if (!$this->banderaNoDisponibles &&  $this->cupoActualTienda >= $this->total) { 
     <div class='button'>
         <button class="mx-auto">
             <span>
-                <p>Comprar</p>
+                <p>Confirmar</p>
                 <i class="fa-solid fa-cart-shopping"></i>
             </span>
         </button>

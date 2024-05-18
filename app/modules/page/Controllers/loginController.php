@@ -3,6 +3,14 @@
 class Page_loginController extends Page_mainController
 {
  
+  /* usuario
+1069472501
+Ryf.8588
+
+admin
+Foe_tienda0210
+
+ */
   public function indexAction()
   {
     //error_reporting(E_ALL);

@@ -36,7 +36,7 @@
 								<option <?php if ($this->getObjectVariable($this->usuario, "ciudad_documento") == $key) {
 									echo "selected";
 								} ?> value="<?php echo $key; ?>" />
-								<?= $value; ?>
+								<?= mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1'); ?>
 								</option>
 							<?php } ?>
 						</select>
@@ -67,7 +67,7 @@
 								<option <?php if ($this->getObjectVariable($this->usuario, "ciudad_residencia") == $key) {
 									echo "selected";
 								} ?> value="<?php echo $key; ?>" />
-								<?= $value; ?>
+								<?= mb_convert_encoding($value, 'UTF-8', 'ISO-8859-1'); ?>
 								</option>
 							<?php } ?>
 						</select>

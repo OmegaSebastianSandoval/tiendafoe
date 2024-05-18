@@ -9,7 +9,7 @@ class Page_carritoController extends Page_mainController
     }
     public function formularioAction()
     {
-//   error_reporting(E_ALL);
+        //   error_reporting(E_ALL);
 
 
         // Configura el layout para esta acción como 'blanco'
@@ -79,9 +79,9 @@ class Page_carritoController extends Page_mainController
         $this->_view->barrio = $ultimaCompra->barrio ?? $usuarioInfo->barrio;
 
         // Obtener y establecer documento del usuario en la vista
-        $this->_view->documento = $ultimaCompra->documento ?? $usuarioInfo->documento;
+        $this->_view->documento = $ultimaCompra->documento ?? $usuarioInfo->usuario;
 
-  
+
 
         $this->_view->ciudades = $ciudades;
 
@@ -214,6 +214,10 @@ class Page_carritoController extends Page_mainController
             exit;
         }
 
+
+
+
+
         // Instancia los modelos necesarios
         $productoModel = new Administracion_Model_DbTable_Productos();
         $itemsModel = new Administracion_Model_DbTable_Listarcompras();
@@ -228,6 +232,24 @@ class Page_carritoController extends Page_mainController
         $data["validacion"] = 0;
         $data["cedula"] = $usuario;
 
+
+        error_reporting(E_ALL);
+
+        //validar que el producto no se pueda agregar por el cupo
+        $totalActualCarrito = $this->traerTotalCarrito();
+        $usuarioInfo = $this->getUsuario();
+        $cupo =  $usuarioInfo->cupo_actual;
+        $nuevoTotal =  $totalActualCarrito + $producto->precio;
+        if ($nuevoTotal >  $cupo) {
+            echo json_encode([
+                'success' => false,
+                'msg' => "Cupo insuficiente",
+                'icon' => "error",
+                'footer' => 1
+
+            ]);
+            exit;
+        }
 
         //buscar si el producto existe en el carrito
 

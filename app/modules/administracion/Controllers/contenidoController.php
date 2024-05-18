@@ -420,6 +420,8 @@ class Administracion_contenidoController extends Administracion_mainController
   {
     $array = array();
     $array['1'] = 'Contenidos';
+    $array['2'] = 'Términos de compra';
+
     return $array;
   }
 

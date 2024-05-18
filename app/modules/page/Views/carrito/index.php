@@ -14,7 +14,7 @@
         <div id="content-formulario" class="content-formulario">
 
         </div>
-
+        <a id="btn-ver-mas" class="btn-azul mt-4 mx-auto" href="/page/tienda"  style="display: none;">Ver más productos</a>
 
     </div>
 </section>
@@ -26,9 +26,16 @@
 <script>
     ready(function() {
 
+
+         // Función para mostrar el botón
+         function mostrarBoton() {
+            document.getElementById('btn-ver-mas').style.display = 'block';
+        }
+
         getCarrito()
         getFormulario()
         getAlerta()
+
         function getCarrito() {
 
             $.post(
@@ -45,6 +52,7 @@
                 '/page/carrito/formulario',
                 function(res) {
                     $("#content-formulario").html(res);
+                    mostrarBoton()
                 }
             );
         }

@@ -251,26 +251,17 @@ class Administracion_Model_DbTable_Listarcompras extends Db_Table
 	 * @param  integer $id Identificador al cual se le va a realizar la actualización
 	 * @return void
 	 */
-	public function updateCarrito($data, $id)
+	public function updateCarrito($cedula, $nombre, $direccion, $ciudad, $telefono, $documento, $barrio, $celular, $cuotas)
 	{
-		$cedula = $data['cedula'];
-		$producto = $data['producto'];
-		$valor = $data['valor'];
-		$cantidad = $data['cantidad'];
-		$fecha = $data['fecha'];
-		$validacion = $data['validacion'];
 
-		$query = "UPDATE items SET 
-                cedula = '$cedula', 
-                producto = '$producto', 
-                valor = '$valor', 
-                cantidad = '$cantidad', 
-                fecha = '$fecha', 
-                validacion = '$validacion' 
-              WHERE id = '$id'";
+
+		$query = "UPDATE items SET nombre='$nombre', direccion='$direccion',ciudad='$ciudad',telefono='$telefono',documento='$documento',barrio='$barrio',celular='$celular',cuotas='$cuotas' WHERE cedula = '$cedula' AND validacion=0 ";
 
 		$res = $this->_conn->query($query);
+		return $res;
+
 	}
+	/* http://localhost:8043/page/compra/confirmar?total=%24+179.900&destinatario=BELTRAN+RUIZ+RANFER+MANUEL&tasa=1.58%25&direccion=3123123&-numero-numero=36&barrio=534534&valor-cuota=%24+6.591&ciudad-destino=BOGOTÁ&cuota-fondo-m=%24+750&telefono=123321&documento-destinatario=1069472501&celular=3213213123&cedula=1069472501&valor=179900&cuotas=36&cuota=6590.7802938772&tasa-valor=1.58 */
 	public function updateCarritoCantidad($data, $id)
 	{
 		$cantidad = $data['cantidad'];

@@ -61,6 +61,9 @@ class Page_mainController extends Controllers_Abstract
 			$this->_view->contenidoSinCupo = $contenidoSinCupo;
 
 			$contenidoSinCupo->contenido_introduccion = str_replace('[ENLACE]', '<a href="https://creditos.foebbva.com/page/sistema/?tienda=1" target="_blank" >modulo de solicitud de cr&eacute;ditos.</a>', $contenidoSinCupo->contenido_introduccion);
+		
+		
+			
 		}
 
 		//TODO: 
@@ -151,5 +154,35 @@ class Page_mainController extends Controllers_Abstract
 		$res = ["cantidad" => $cantidadProductosEnCarrito ?? 0];
 		// Asigna los datos procesados a la vista para su uso en la plantilla
 		echo json_encode($res);
+	}
+
+
+	public function traerTotalCarrito()
+	{
+		$itemsModel = new Administracion_Model_DbTable_Listarcompras();
+		$productoModel = new Administracion_Model_DbTable_Productos();
+
+		// Obtiene la sesión del usuario actual
+		$usuario = Session::getInstance()->get("user");
+
+
+		// Recupera los productos en el carrito que no han sido validados aún
+		$productosEnCarrito = $itemsModel->getList("validacion = '0' AND cedula='$usuario'", "");
+
+
+		$total = 0;
+
+		// Procesa cada producto en el carrito
+		foreach ($productosEnCarrito as $item) {
+
+
+
+			// Calcula el subtotal para cada producto en el carrito
+			$item->subtotal = (int)$item->valor * (int)$item->cantidad;
+			$total += $item->subtotal;
+		}
+
+
+		return $total;
 	}
 }

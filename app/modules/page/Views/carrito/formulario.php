@@ -1,13 +1,13 @@
-<form action="" class="form-tienda shadow mt-5">
+<form action="/page/compra/confirmar" class="form-tienda shadow mt-5">
     <div class="header-form">
         DATOS PARA LA COMPRA
     </div>
     <div class="row">
-        <input type="hidden" name="id" value="<?= $this->usuario->id ?>">
+    
         <div class="content-input col-12 col-md-6">
             <div class="form-group">
-                <label for="usuario">Valor a pagar</label>
-                <input type="text" class="form-control" value="$ <?= formato_pesos($this->total) ?>" id="usuario" name="usuario" readonly>
+                <label for="total">Valor a pagar</label>
+                <input type="text" class="form-control" value="$ <?= formato_pesos($this->total) ?>" id="total" name="total" readonly>
             </div>
         </div>
         <div class="content-input col-12 col-md-6">
@@ -107,8 +107,10 @@
         </div>
         <div class="content-input col-12 col-md-6">
             <div class="form-group">
-                <label for="ciudad-destinatario">Ciudad destinatario</label>
-                <input type="text" class="form-control" value="" id="ciudad-destinatario" name="ciudad-destinatario" required>
+                <label for="celular">Célular destinatario</label>
+                <input type="text" class="form-control" value="<?= $this->celular ?>" id="celular" name="celular" required> 
+                
+               
             </div>
         </div>
 

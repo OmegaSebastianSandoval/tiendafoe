@@ -80,7 +80,8 @@ echo "</pre>";
 
             </tbody>
         </table>
-        <?php echo sin_p($this->textoCarrito->contenido_introduccion) ?>
+        <?php echo $this->contenido ?>
+
 
 
     <?php } else { ?>

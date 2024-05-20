@@ -1352,6 +1352,11 @@ CATEGORIAS FIN
   margin-top: 60px;
 }
 
+.content-carrito .descripcion-seccion p{
+  color: var(--gris);
+  font-weight: 500;
+
+}
 
 .form-carrito .header-form {
   padding: 15px 0;
@@ -1363,18 +1368,20 @@ CATEGORIAS FIN
   max-width: 75ch;
   margin: auto;
 }
-.textoNegro div strong{
+
+.textoNegro div strong {
   color: var(--blueC);
   font-weight: 700;
 }
 
- .form-check-label{
+.form-check-label {
   color: var(--gris);
   cursor: pointer;
   font-weight: 700;
   transition: all 300ms ease-in-out;
 }
- .form-check-label:hover{
+
+.form-check-label:hover {
   color: var(--blueC);
 
 }
@@ -1464,6 +1471,11 @@ CATEGORIAS FIN
 }
 
 
+.form-tienda  .descripcion-seccion p{
+  color: var(--rojo);
+  font-weight: 500;
+
+}
 /* *********************
   MI PERFIL  FIN
   ************************* */
@@ -1473,10 +1485,18 @@ CATEGORIAS FIN
 
 
 
+/* *********************
+  MIS COMPRAS INICIO
+  ************************* */
 
+.contenedor-compras .descripcion-seccion p{
+  color: var(--gris);
+  font-weight: 500;
 
-
-
+}
+/* *********************
+ MIS COMPRAS  FIN
+  ************************* */
 
 
 

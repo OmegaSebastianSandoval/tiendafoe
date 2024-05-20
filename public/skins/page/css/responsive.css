@@ -94,18 +94,21 @@ HEADER RESPONSIVE INICIO
     display: none;
   }
 
-  .content-searchbar{
+  .content-searchbar {
     flex-direction: column;
   }
-  .content-searchbar form{
+
+  .content-searchbar form {
     width: 100%;
   }
-  .content-searchbar a{
+
+  .content-searchbar a {
     margin-top: 14px;
   }
+
   /* productos grid */
   .products-grid {
-     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 }
 
@@ -113,6 +116,12 @@ HEADER RESPONSIVE INICIO
 /* -*********************
 HEADER RESPONSIVE FIN 
 ***************************/
+@media (width >771px) {
+  .w-md-50 {
+    width: 50% !important;
+
+  }
+}
 
 @media (width <771px) {
 

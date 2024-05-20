@@ -122,6 +122,7 @@
 
 
 
+        <?php echo $this->contenido2 ?>
 
         <div class="mt-4">
             <div id="alerta">
@@ -135,6 +136,8 @@
 
 
 </form>
+
+
 
 <script>
     // Element references

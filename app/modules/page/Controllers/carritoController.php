@@ -14,6 +14,8 @@ class Page_carritoController extends Page_mainController
 
         // Configura el layout para esta acción como 'blanco'
         $this->setLayout("blanco");
+        $this->_view->contenido2 = $this->template->getContentseccion(5);
+
         // print_r($productosEnCarrito);
         // Instancia de modelos para operaciones de base de datos
         $itemsModel = new Administracion_Model_DbTable_Listarcompras();
@@ -305,6 +307,10 @@ class Page_carritoController extends Page_mainController
         $itemsModel = new Administracion_Model_DbTable_Listarcompras();
         $productoModel = new Administracion_Model_DbTable_Productos();
         $contenidoModel = new Administracion_Model_DbTable_Contenido();
+        $this->_view->contenido = $this->template->getContentseccion(4);
+     
+
+
         $textoCarrito = $contenidoModel->getList("contenido_estado = '1' AND contenido_id='4'")[0];
         $this->_view->textoCarrito = $textoCarrito;
         // Obtiene la sesión del usuario actual

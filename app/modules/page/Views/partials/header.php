@@ -38,10 +38,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href='/forum'>Mis compras</a>
+                    <a href='/page/compras'>Mis compras</a>
                 </li>
                 <li>
-                    <a href='/page'>Mi perfil</a>
+                    <a href='/page/perfil'>Mi perfil</a>
                 </li>
                 <li>
                     <a href='/page/login/logout/'>Salir</a>
@@ -91,7 +91,7 @@
             </a>
         </div>
         <div class="info-2">
-            <a href="#">Mis compras</a>
+            <a href="/page/compras">Mis compras</a>
             <span class="text">
                 <a href="/page/perfil">Mi perfil</a>
 

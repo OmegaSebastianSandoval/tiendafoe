@@ -129,8 +129,8 @@
         $.post(
             '/page/carrito/traeritems',
             function(res) {
-                res = JSON.parse(res);
-                console.log(res.cantidad);
+                 res = JSON.parse(res);
+                //console.log(res.cantidad);
                 $(".contador-carrito").html(res.cantidad);
             }
         );

@@ -253,15 +253,19 @@ class Administracion_Model_DbTable_Listarcompras extends Db_Table
 	 */
 	public function updateCarrito($cedula, $nombre, $direccion, $ciudad, $telefono, $documento, $barrio, $celular, $cuotas)
 	{
-
-
 		$query = "UPDATE items SET nombre='$nombre', direccion='$direccion',ciudad='$ciudad',telefono='$telefono',documento='$documento',barrio='$barrio',celular='$celular',cuotas='$cuotas' WHERE cedula = '$cedula' AND validacion=0 ";
 
 		$res = $this->_conn->query($query);
 		return $res;
-
 	}
-	/* http://localhost:8043/page/compra/confirmar?total=%24+179.900&destinatario=BELTRAN+RUIZ+RANFER+MANUEL&tasa=1.58%25&direccion=3123123&-numero-numero=36&barrio=534534&valor-cuota=%24+6.591&ciudad-destino=BOGOTÁ&cuota-fondo-m=%24+750&telefono=123321&documento-destinatario=1069472501&celular=3213213123&cedula=1069472501&valor=179900&cuotas=36&cuota=6590.7802938772&tasa-valor=1.58 */
+	public function updateCarritoConfirmacion($cedula, $orden, $fecha)
+	{
+		$query = "UPDATE items SET validacion = '1', orden='$orden', fecha='$fecha'  WHERE cedula = '$cedula' AND validacion='0' ";
+
+		$res = $this->_conn->query($query);
+		return $res;
+	}
+
 	public function updateCarritoCantidad($data, $id)
 	{
 		$cantidad = $data['cantidad'];
@@ -269,4 +273,22 @@ class Administracion_Model_DbTable_Listarcompras extends Db_Table
 		$res = $this->_conn->query($query);
 		return $res;
 	}
+	public function updateByOrden($orden)
+	{
+	
+		$query = " UPDATE items SET enviado = '1' WHERE orden = '$orden' ";
+		$res = $this->_conn->query($query);
+		return $res;
+	}
+
+	public function updateItemByPagare($numero_pagare, $orden)
+	{
+	
+		$query = " UPDATE items SET pagare = '$numero_pagare' WHERE orden = '$orden' ";
+		$res = $this->_conn->query($query);
+		return $res;
+	}
+
+
+
 }

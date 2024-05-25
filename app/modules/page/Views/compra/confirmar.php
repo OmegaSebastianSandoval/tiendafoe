@@ -70,6 +70,10 @@
                     </span>
                 </button>
             </div>
+            <input type="hidden" name="id" value="<?= $this->cedula?>">
+            <input type="hidden" name="valor" value="<?= $this->valor?>">
+            <input type="hidden" name="cuotas" value="<?= $this->cuotas?>">
+            <input type="hidden" name="cuota" value="<?= $this->cuota?>">
         </form>
     </div>
 </section>

@@ -14,7 +14,7 @@
         <div id="content-formulario" class="content-formulario">
 
         </div>
-        <a id="btn-ver-mas" class="btn-azul mt-4 mx-auto" href="/page/tienda"  style="display: none;">Ver más productos</a>
+        <a id="btn-ver-mas" class="btn-azul mt-4 mx-auto" href="/page/tienda" style="display: none;">Ver más productos</a>
 
     </div>
 </section>
@@ -27,8 +27,8 @@
     ready(function() {
 
 
-         // Función para mostrar el botón
-         function mostrarBoton() {
+        // Función para mostrar el botón
+        function mostrarBoton() {
             document.getElementById('btn-ver-mas').style.display = 'block';
         }
 
@@ -62,10 +62,36 @@
             $.post(
                 '/page/carrito/alerta',
                 function(res) {
-                    console.log(res);
+                    // console.log(res);
                     $("#alerta").html(res);
                 }
             );
+        }
+
+
+        function cambiarTotal() {
+
+            $.post(
+                '/page/carrito/traerTotalCarrito',
+                function(res) {
+                    const response = JSON.parse(res);
+                    const valor = document.getElementById('valor')
+                    const total = document.getElementById('total')
+                    valor.value = response.total
+                    total.value = `$ ${formatoPesos(response.total)}`
+                    generarCalculo()
+                }
+            );
+        }
+
+        function formatoPesos(x) {
+            if (x === null || x === undefined) {
+                return 0;
+            }
+            return x.toLocaleString('es-CO', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            });
         }
 
         /* *************************
@@ -78,7 +104,7 @@
             listContainer.addEventListener("click", async function(event) {
                 if (event.target.classList.contains("btn-eliminar-item")) {
                     const recordId = event.target.getAttribute("data-id");
-                    console.log(recordId);
+                    // console.log(recordId);
                     const data = {
                         itemId: recordId
                     };
@@ -97,12 +123,14 @@
                         }
 
                         const res = await response.json(); // Parseamos la respuesta como JSON
-                        console.log(res);
+                        // console.log(res);
                         $("#content-carrito").fadeOut();
                         getCarrito()
                         getItemsCarrito()
                         getAlerta()
-                        getItemsCarrito()
+                        cambiarTotal()
+
+
                         $("#content-carrito").fadeIn();
                         $("#item" + recordId).modal("hide");
                         Swal.fire({

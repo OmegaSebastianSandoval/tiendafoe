@@ -3,7 +3,7 @@
         DATOS PARA LA COMPRA
     </div>
     <div class="row">
-    
+
         <div class="content-input col-12 col-md-6">
             <div class="form-group">
                 <label for="total">Valor a pagar</label>
@@ -108,9 +108,9 @@
         <div class="content-input col-12 col-md-6">
             <div class="form-group">
                 <label for="celular">Célular destinatario</label>
-                <input type="text" class="form-control" value="<?= $this->celular ?>" id="celular" name="celular" required> 
-                
-               
+                <input type="text" class="form-control" value="<?= $this->celular ?>" id="celular" name="celular" required>
+
+
             </div>
         </div>
 
@@ -175,7 +175,9 @@
     }
 
     // Event listener for change event on numeroCuotasElement
-    numeroCuotasElement.addEventListener("change", () => {
+    numeroCuotasElement.addEventListener("change", generarCalculo);
+
+    function generarCalculo() {
         const numeroCuotas = parseInt(numeroCuotasElement.value, 10);
         const tasa = parseFloat(tasaElement.value);
         const total = parseFloat(totalElement.value);
@@ -185,12 +187,6 @@
         valorCuotaElement.value = "$ " + formatoPesos(interesSimple);
         cuotasElement.value = numeroCuotas;
         cuotaElement.value = interesSimple;
-
-        // Logging the result
-        console.log('El valor de la cuota mensual es:', interesSimple);
-    });
-
-    // Example usage of formatoPesos function
-    const cantidad = 1234567;
-    console.log(formatoPesos(cantidad)); // Salida: "1.234.567"
+    }
+ 
 </script>

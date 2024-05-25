@@ -61,7 +61,9 @@ class Page_compraController extends Page_mainController
 
   public function confirmarcarritoAction()
   {
+    // Establece el layout a "blanco"
     $this->setLayout("blanco");
+
     // Sanitiza y asigna los parámetros de la solicitud
     $cedula = $this->_getSanitizedParam('id');
     $cuotas = $this->_getSanitizedParam('cuotas');
@@ -71,161 +73,136 @@ class Page_compraController extends Page_mainController
     // Instancia los modelos necesarios
     $itemsModel = new Administracion_Model_DbTable_Listarcompras();
     $productoModel = new Administracion_Model_DbTable_Productos();
+
+    // Obtiene la lista de productos en el carrito que aún no han sido enviados y no están validados
     $productosEnCarrito = $itemsModel->getList("cedula = '$cedula' AND enviado IS NULL AND validacion='0'", "");
-
-    $ultimaCompra = $itemsModel->getList(" validacion = '1'", "orden DESC")[0];
-
+    $ultimaCompra = $itemsModel->getList("validacion = '1'", "orden DESC")[0];
     $orden = $ultimaCompra->orden + 1;
     $fecha = date("Y-m-d H:i:s");
+
+    // Confirma el carrito si hay productos en el carrito
     if ($cedula && count($productosEnCarrito) >= 1 && $productosEnCarrito[0]->nombre != '') {
       $itemsModel->updateCarritoConfirmacion($cedula, $orden, $fecha);
     }
 
-
-    if (!$productosEnCarrito   && $productosEnCarrito[0]->nombre == '') {
+    // Redirige si el carrito está vacío
+    if (!$productosEnCarrito && $productosEnCarrito[0]->nombre == '') {
       header('Location: /page/informacioenvio');
+      exit();  // Agregado exit para asegurar que se detenga la ejecución después del redireccionamiento
     }
 
-
-
-    // Instancia los modelos necesarios
-    $itemsModel = new Administracion_Model_DbTable_Listarcompras();
-    $productoModel = new Administracion_Model_DbTable_Productos();
+    // Reinstancia los modelos necesarios (esto es redundante y se puede mejorar)
     $usuariosModel = new Administracion_Model_DbTable_Usuariostienda();
-
-    $productosEnCarrito = $itemsModel->getList("cedula = '$cedula' AND validacion = '1' AND orden='$orden'", " id ASC ");
+    $productosEnCarrito = $itemsModel->getList("cedula = '$cedula' AND validacion = '1' AND orden='$orden'", "id ASC");
 
     $enviado = $productosEnCarrito[0]->enviado;
-    $nombres = '';
-    $precios = '';
-    $cantidades = '';
     $mensajeProductos = '';
+
+    // Construye el mensaje de productos en el carrito
     foreach ($productosEnCarrito as $itemCarrito) {
       $productoId = $itemCarrito->producto;
       $producto = $productoModel->getById($productoId);
 
-
       if ($producto->nombre != '') {
         $mensajeProductos .= "
-			<tr>
-				<td>" . $producto->nombre . "</td>
-				<td><div align='right'>$ " . (number_format($itemCarrito->valor, 0)) . "</div></td>
-				<td><div align='center'>" . $itemCarrito->cantidad . "</div></td>
-				<td><div align='right'>$ " . (number_format($itemCarrito->valor * $itemCarrito->cantidad, 0)) . "</div></td>
-			</tr>";
-      } //if
-
+            <tr>
+                <td>{$producto->nombre}</td>
+                <td><div align='right'>$ " . number_format($itemCarrito->valor, 0) . "</div></td>
+                <td><div align='center'>{$itemCarrito->cantidad}</div></td>
+                <td><div align='right'>$ " . number_format($itemCarrito->valor * $itemCarrito->cantidad, 0) . "</div></td>
+            </tr>";
+      }
     }
 
-    $usuario = $usuariosModel->getList("usuario = '$cedula'", "")[0];
-    $cupo_actual = $usuario->cupo_actual;
-    $cupo_actual = $cupo_actual - $valor;
+    // Obtiene información del usuario
+    $usuarioInfo = $usuariosModel->getList("usuario = '$cedula'", "")[0];
+    $cupo_actual = $usuarioInfo->cupo_actual - $valor;
 
+    // Actualiza el cupo del usuario y el carrito si no ha sido enviado
     if ($enviado != 1) {
-      $usuariosModel->editField($usuario->id, "cupo_actual", $cupo_actual);
+      $usuariosModel->editField($usuarioInfo->id, "cupo_actual", $cupo_actual);
       $itemsModel->updateByOrden($orden);
     }
 
-    $nombre = $usuario->nombre;
-    $usuario = $usuario->usuario;
-    $correo = $usuario->correo;
-    $ciudad = $usuario->ciudad_documento;
-    $ciudad2 = $usuario->ciudad_residencia;
-    $id = $usuario->id;
+    // Datos del usuario con fallback a la sesión
+    $nombre = $usuarioInfo->nombre ?: Session::getInstance()->get("username");
+    $correo = $usuarioInfo->correo ?: Session::getInstance()->get("email");
+    $usuario = $usuarioInfo->usuario ?: Session::getInstance()->get("user");
 
-    if ($nombre == "") {
-      $nombre =  Session::getInstance()->get("username");
-    }
-    if ($correo == "") {
-      $correo =  Session::getInstance()->get("email");
-    }
-    if ($usuario == "") {
-      $usuario =  Session::getInstance()->get("user");
-    }
-
+    // Datos para enviar en la vista o por correo
     $datos = [
       'nombre' => $nombre,
       'correo' => $correo,
-      'ciudad' => $ciudad,
-      'ciudad2' => $ciudad2,
+      'ciudad' => $usuario->ciudad_documento,
+      'ciudad2' => $usuario->ciudad_residencia,
       'usuario' => $usuario,
       'valor' => $_GET['valor'],
       'cuotas' => $_GET['cuotas'],
-      'id' => $id,
-      'nombres' => $nombres,
-      'precios' => $precios,
-      'cantidades' => $cantidades,
+      'id' => $usuario->id,
       'orden' => $orden,
       'cedula' => $cedula,
       'f' => microtime(),
       'hash' => md5("OMEGA_" . $orden)
     ];
 
-
-    $pagare  = $this->consultarPagare($cedula);
+    // Consulta y actualiza el pagare
+    $pagare = $this->consultarPagare($cedula);
     if ($pagare != "") {
       $itemsModel->updateItemByPagare($pagare, $orden);
     }
 
-
-
-    $mensaje = "<strong>Compra No. " . $orden . "V</strong><br />
-<table style=\"border:1px solid #000000;\" border=\"1\" cellspacing=\"0\" cellpadding=\"3\" >
-	<tr>
-		<td><strong>Producto</strong></td>
-		<td><strong>Precio</strong></td>
-		<td><strong>Cantidad</strong></td>
-		<td><strong>Subtotal</strong></td>
-	</tr>";
-
+    // Construye el mensaje de correo
+    $mensaje = "<strong>Compra No. $orden V</strong><br />
+    <table style=\"border:1px solid #000000;\" border=\"1\" cellspacing=\"0\" cellpadding=\"3\">
+        <tr>
+            <td><strong>Producto</strong></td>
+            <td><strong>Precio</strong></td>
+            <td><strong>Cantidad</strong></td>
+            <td><strong>Subtotal</strong></td>
+        </tr>";
     $mensaje .= $mensajeProductos;
+    $mensaje .= "
+        <tr>
+            <td></td>
+            <td></td>
+            <td><strong>TOTAL</strong></td>
+            <td><div align='right'><strong>$ " . number_format($valor, 0) . "</strong></div></td>
+        </tr>
+    </table>
+    <br /><br />";
 
-    $mensaje .= "	
-	<tr>
-		<td></td>
-		<td></td>
-		<td><strong>TOTAL</strong></td>
-		<td><div align='right'><strong>$ " . (number_format($valor, 0)) . "</strong></div></td>
-	</tr>
+    $asunto = "COMPRA $orden V TIENDA VIRTUAL FOEBBVA";
 
-</table>
-<br /><br />";
-
-
-    $asunto = " COMPRA " . $orden . "V TIENDA VIRTUAL FOEBBVA";
-
-    $bono = "<div style=\"border:1px solid #000000; padding:5px;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
-  <tr>
-    <td><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
-      <tr>
-        <td><img src=\"https://tienda.foebbva.com/corte/logo60.png\" height=\"77\" /></td>
-        <td class=\"textoNegro\"><div align=\"center\"><strong>DOCUMENTO AUTORIZACI&Oacute;N DE DESCUENTO No. " . $orden . "V</strong></div></td>
-      </tr>
-    </table></td>
-  </tr>\r\n
-  <tr>
-    <td></td>
-  </tr>\r\n
-  <tr>
-    <td><p align=\"justify\" class=\"textoNegro\">Yo <span style=\"text-decoration:underline;\">" . $nombre . "</span> identificado (a) con cedula de ciudadan&iacute;a n&uacute;mero <span style=\"text-decoration:underline;\">" . $usuario . "</span> de <span style=\"text-decoration:underline;\">" . $ciudad . "</span>, autorizo al pagador de la empresa donde laboro y que determina mi vinculo de asociaci&oacute;n con el Fondo de Empleados BBVA, a descontar por n&oacte;mina o d&eacte;bito autom&aacte;tico el valor de <span style=\"text-decoration:underline;\">$ " . (number_format($valor, 0)) . "</span> en ( <span style=\"text-decoration:underline;\">" . $cuotas . "</span> ) cuotas mensuales. En caso de m&iacute; desvinculaci&oacute;n laboral, autorizo descontar de mi liquidaci&oacute;n final de prestaciones sociales y dem&aacute;s beneficios que me liquiden a mi favor.\r\n As&iacute; mismo en caso de no presentarse el descuento en mi desprendible de n&oacute;mina autorizo descontar el saldo de mi cuenta de n&oacute;mina registrada en el FOE. En el caso de asociados independientes se cargara en su pr&oacute;xima cuenta de cobro.</p>
-    </td>
-  </tr>
-</table></div>";
+    // Bono de autorización de descuento
+    $bono = "<div style=\"border:1px solid #000000; padding:5px;\">
+    <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+        <tr>
+            <td><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+                <tr>
+                    <td><img src=\"https://tienda.foebbva.com/corte/logo60.png\" height=\"77\" /></td>
+                    <td class=\"textoNegro\"><div align=\"center\"><strong>DOCUMENTO AUTORIZACIÓN DE DESCUENTO No. $orden V</strong></div></td>
+                </tr>
+            </table></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td><p align=\"justify\" class=\"textoNegro\">Yo <span style=\"text-decoration:underline;\">$nombre</span> identificado (a) con cedula de ciudadan&iacute;a n&uacute;mero <span style=\"text-decoration:underline;\">$usuario</span> de <span style=\"text-decoration:underline;\">{$usuario->ciudad_documento}</span>, autorizo al pagador de la empresa donde laboro y que determina mi vinculo de asociaci&oacute;n con el Fondo de Empleados BBVA, a descontar por nómina o débito automático el valor de <span style=\"text-decoration:underline;\">$ " . number_format($valor, 0) . "</span> en (<span style=\"text-decoration:underline;\">$cuotas</span>) cuotas mensuales. En caso de mi desvinculación laboral, autorizo descontar de mi liquidación final de prestaciones sociales y demás beneficios que me liquiden a mi favor. Así mismo en caso de no presentarse el descuento en mi desprendible de nómina autorizo descontar el saldo de mi cuenta de nómina registrada en el FOE. En el caso de asociados independientes se cargará en su próxima cuenta de cobro.</p>
+            </td>
+        </tr>
+    </table></div>";
 
     $mensaje .= $bono;
 
     $boton_azul = "background:#01508A; color:#FFF; font-size:12px; padding:5px 12px; text-decoration:none; max-width:200px; border-bottom:1px solid #FFFFFF; border-radius:4px;";
-
-    $pagareMensaje = "<br /><br /><br />
-<a href=\"https://tienda.foebbva.com/pdf.php?orden=" . $orden . "\" style='" . $boton_azul . "'>IMPRIMIR PAGAR&Eacute; Y CARTA DE INSTRUCCIONES</a>
-";
-
-    $mensaje .= $pagareMensaje;
+    $pagare = "<br /><br /><br />
+    <a href=\"https://tienda.foebbva.com/pdf.php?orden=$orden\" style='$boton_azul'>IMPRIMIR PAGARÉ Y CARTA DE INSTRUCCIONES</a>";
 
     if ($pagare != '') {
-      $mensaje = $mensaje . "<br /><br />¿Tiene Pagare Firmado? <strong>Si. tiene firmado el pagare No. " . $pagare . "</strong>";
+      $mensaje .= "<br /><br />Tiene Pagaré Firmado?: <strong>Si. tiene firmado el pagaré No. $pagare</strong>";
     } else {
-      $mensaje = $mensaje . "<br /><br />Tiene Pagare Firmado?: <strong>El asociado no tiene pagare firmado.</strong>";
+      $mensaje .= "<br /><br />Tiene Pagaré Firmado?: <strong>El asociado no tiene pagaré firmado.</strong>";
     }
 
     // Muestra el mensaje
@@ -236,13 +213,14 @@ class Page_compraController extends Page_mainController
     $emailModel->getMail()->AltBody = $mensaje;
 
     if ($correo != "") {
-      // $emailModel->getMail()->addAddress($correo, "Notificaciones FOE");
+     // $emailModel->getMail()->addAddress($correo, "Notificaciones FOE");
       // $data["mailTo"] = "" . $correo;
-      $emailModel->getMail()->addAddress("desarrollo8@omegawebsystems.com", "Notificaciones FOE");
-      $data["mailTo"] = "desarrollo8@omegawebsystems.com";
+     $emailModel->getMail()->addAddress("desarrollo8@omegawebsystems.com", "Notificaciones FOE");
+     $data["mailTo"] = "desarrollo8@omegawebsystems.com";
+
     }
     //$emailModel->getMail()->addBCC("tiendavirtualfoe@foebbva.com", "Notificaciones FOE");
-    // $emailModel->getMail()->addBCC("solicitudcreditosfoe@foebbva.com", "Notificaciones FOE");
+   // $emailModel->getMail()->addBCC("solicitudcreditosfoe@foebbva.com", "Notificaciones FOE");
     $emailModel->getMail()->addBCC("soporteomega@omegawebsystems.com", "Notificaciones FOE");
     // $emailModel->getMail()->addBCC("desarrollo8@omegawebsystems.com", "Notificaciones FOE");
 

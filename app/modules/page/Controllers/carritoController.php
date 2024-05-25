@@ -235,13 +235,13 @@ class Page_carritoController extends Page_mainController
         $data["cedula"] = $usuario;
 
 
-        error_reporting(E_ALL);
+        //error_reporting(E_ALL);
 
         //validar que el producto no se pueda agregar por el cupo
         $totalActualCarrito = $this->traerTotalCarrito();
         $usuarioInfo = $this->getUsuario();
         $cupo =  $usuarioInfo->cupo_actual;
-        $nuevoTotal =  $totalActualCarrito + $producto->precio;
+        $nuevoTotal =  $totalActualCarrito + ($producto->precio * $cantidad);
         if ($nuevoTotal >  $cupo) {
             echo json_encode([
                 'success' => false,
@@ -308,7 +308,7 @@ class Page_carritoController extends Page_mainController
         $productoModel = new Administracion_Model_DbTable_Productos();
         $contenidoModel = new Administracion_Model_DbTable_Contenido();
         $this->_view->contenido = $this->template->getContentseccion(4);
-     
+
 
 
         $textoCarrito = $contenidoModel->getList("contenido_estado = '1' AND contenido_id='4'")[0];
@@ -437,5 +437,32 @@ class Page_carritoController extends Page_mainController
 
         // Asigna los datos procesados a la vista para su uso en la plantilla
         echo json_encode($res);
+    }
+
+    public function traerTotalCarritoAction()
+    {
+        //   error_reporting(E_ALL);
+
+        // Configura el layout para esta acción como 'blanco'
+        $this->setLayout("blanco");
+        // Instancia de modelos para operaciones de base de datos
+        $itemsModel = new Administracion_Model_DbTable_Listarcompras();
+
+
+        // Obtiene la sesión del usuario actual
+        $usuario = Session::getInstance()->get("user");
+
+        // Recupera los productos en el carrito que no han sido validados aún
+        $productosEnCarrito = $itemsModel->getList("validacion = '0' AND cedula='$usuario'", "");
+
+        // Procesa cada producto en el carrito para sumar las cantidades
+        $total = array_reduce($productosEnCarrito, function ($carry, $item) {
+            return $carry + ($item->valor * $item->cantidad);
+        }, 0);
+
+        $res = ["total" => $total];
+        echo json_encode($res);
+
+        // Asigna los datos procesados a la vista para su uso en la plantilla
     }
 }

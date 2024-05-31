@@ -85,7 +85,7 @@ echo "</pre>";
 
 
     <?php } else { ?>
-        <div class="alert alert-warning" role="alert">
+        <div class="alert alert-warning text-center" role="alert">
             El carrito esta vacio
         </div>
 

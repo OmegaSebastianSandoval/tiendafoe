@@ -6,7 +6,7 @@
             <h2 class="m-0">Mis compras</h2>
         </div>
     </div>
-    <div class="container pt-5 contenedor-compras">
+    <div class="container py-5 contenedor-compras">
         <?php echo $this->contenido ?>
 
         <div class="compras">

@@ -105,6 +105,35 @@
 	</div>
 	<div class="div-dashboard">
 		<h2>
+			<img src="/skins/administracion/images/informaciondecotactenos.png"> Fecha de apertura y cierre de la tienda <a href="/administracion/informacion/#fechas"><i class="fas fa-marker"></i></a>
+		</h2>
+		<div class="pading-dashboard">
+			<div class="row">
+				<div class="col-6">
+					<div class="contenedor-informacion">
+					
+						<div class="contenido">
+							<h4>Fecha de cierre:</h4>
+							<div><?php echo $this->info->info_pagina_fechacierre; ?></div>
+						</div>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="contenedor-informacion">
+						
+						<div class="contenido">
+							<h4>Fecha de apertura:</h4>
+							<div><?php echo $this->info->info_pagina_fechaapertura; ?></div>
+						</div>
+					</div>
+				</div>
+
+				
+			</div>
+		</div>
+	</div>
+	<div class="div-dashboard">
+		<h2>
 			<img src="/skins/administracion/images/informaciondecotactenos.png"> Información de Contáctenos <a href="/administracion/informacion/#contactenos"><i class="fas fa-marker"></i></a>
 		</h2>
 		<div class="pading-dashboard">

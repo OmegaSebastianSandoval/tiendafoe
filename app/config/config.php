@@ -30,3 +30,11 @@ $config ['development']['db']['password'] = '';
 $config ['development']['db']['port'] ='3306';
 $config ['development']['db']['engine'] ='mysql';
 
+/* usuario
+1069472501
+Ryf.8588
+
+admin
+Foe_tienda0210
+
+ */

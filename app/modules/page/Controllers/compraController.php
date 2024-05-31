@@ -4,7 +4,9 @@ class Page_compraController extends Page_mainController
 {
   public function indexAction()
   {
-    echo Session::getInstance()->get("user");
+    $this->setLayout("blanco");
+
+    // echo Session::getInstance()->get("user");
   }
   public function confirmarAction()
   {
@@ -106,13 +108,72 @@ class Page_compraController extends Page_mainController
 
 
       if ($producto->nombre != '') {
-        $mensajeProductos .= "
+        /*  $mensajeProductos .= "
 			<tr>
 				<td>" . $producto->nombre . "</td>
 				<td><div align='right'>$ " . (number_format($itemCarrito->valor, 0)) . "</div></td>
 				<td><div align='center'>" . $itemCarrito->cantidad . "</div></td>
 				<td><div align='right'>$ " . (number_format($itemCarrito->valor * $itemCarrito->cantidad, 0)) . "</div></td>
-			</tr>";
+			</tr>"; */
+        $mensajeProductos .= "
+
+      <tr style='padding-top:10px;padding-bottom:10px; display:grid;'>
+      <td class='esd-structure es-p20' align='left' esd-custom-block-id='1105821' esdev-config='h1'>
+
+        <table cellpadding='0' cellspacing='0' class='es-left' align='left'>
+          <tbody>
+            <tr>
+              <td width='270' class='es-m-p20b esd-container-frame' align='left'>
+                <table cellpadding='0' cellspacing='0' width='100%'>
+                  <tbody>
+                    <tr>
+                      <td align='center' class='esd-block-image' style='font-size: 0px;'><img class='adapt-img p_image' src='https://tienda.foebbva.com/imagenes/" . $producto->imagen . "' alt='Imagen del producto " . $producto->nombre . " style='display: block;' width='270'></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table cellpadding='0' cellspacing='0' class='es-right' align='right'>
+          <tbody>
+            <tr>
+              <td width='270' align='left' class='esd-container-frame'>
+                <table cellpadding='0' cellspacing='0' width='100%'>
+                  <tbody>
+                    <tr>
+                      <td align='left' class='esd-block-text'>
+                        <h3 class='p_name'>" . $producto->nombre . "</h3>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td align='left' class='esd-block-text es-p10t es-p15b'>
+                        <h2 style='color: #3a599b;margin-bottom:5px;margin-top:5px; font-size: 20px;' class='p_price'>$ " . (number_format($itemCarrito->valor, 0)) . "</h2>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align='left' class='esd-block-text es-p10t'>
+                        <p class='p_description' style='color: #3a599b;margin-bottom:5px;margin-top:5px; font-size: 20px;'>Cantidad: " . $itemCarrito->cantidad . "</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td align='left' class='esd-block-text es-p10t es-p15b'>
+                        <h2 style='color: #3a599b;margin-bottom:5px;margin-top:5px; font-size: 25px;' class='p_price'>$ " . (number_format($itemCarrito->valor * $itemCarrito->cantidad, 0)) . "</h2>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </td>
+    </tr>
+    ";
       } //if
 
     }
@@ -167,20 +228,108 @@ class Page_compraController extends Page_mainController
       $itemsModel->updateItemByPagare($pagare, $orden);
     }
 
+    /* $mensaje = "<strong>Compra No. " . $orden . "V</strong><br />
+    <table style=\"border:1px solid #000000;\" border=\"1\" cellspacing=\"0\" cellpadding=\"3\" >
+      <tr>
+        <td><strong>Producto</strong></td>
+        <td><strong>Precio</strong></td>
+        <td><strong>Cantidad</strong></td>
+        <td><strong>Subtotal</strong></td>
+      </tr>";
+ */
+    $mensaje = "
+	<table class='es-wrapper' width='100%' cellspacing='0' cellpadding='0'>
+		<tbody>
+			<tr>
+				<td class='esd-email-paddings' valign='top'>
 
+					<table class='es-content' cellspacing='0' cellpadding='0' align='center'>
+						<tbody>
+							<tr>
+								<td class='esd-stripe' align='center' esd-custom-block-id='1105818'>
+									<table class='es-content-body' width='600' cellspacing='0' cellpadding='0' bgcolor='#FFF' align='center' style='background-color: #FFF;'>
+										<tbody>
+											<tr>
+												<td class='esd-structure es-p30t es-p20b es-p20r es-p20l' align='left'>
+													<table cellpadding='0' cellspacing='0' width='100%'>
+														<tbody>
+															<tr>
+																<td width='560' class='esd-container-frame' align='center' valign='top'>
+																	<table cellpadding='0' cellspacing='0' width='100%'>
+																		<tbody>
+																			<tr>
+																				<td align='center' class='esd-block-text' style='background-color:#3a599b;color:#FFF'>
+																					<h2 style='margin-top:10px;margin-bottom:10px;'>¡Gracias por tu compra!</h2>
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+											<tr>
+												<td class='esd-structure es-p35t es-p35b es-p20r es-p20l'>
 
-    $mensaje = "<strong>Compra No. " . $orden . "V</strong><br />
-<table style=\"border:1px solid #000000;\" border=\"1\" cellspacing=\"0\" cellpadding=\"3\" >
-	<tr>
-		<td><strong>Producto</strong></td>
-		<td><strong>Precio</strong></td>
-		<td><strong>Cantidad</strong></td>
-		<td><strong>Subtotal</strong></td>
-	</tr>";
+													<table cellpadding='0' cellspacing='0' class='es-right' align='center'>
+														<tbody>
+															<tr>
+																<td width='100%' align='center' class='esd-container-frame es-m-p20b'>
+																	<table cellpadding='0' cellspacing='0' width='100%'>
+																		<tbody>
+																			<tr>
+																				<td align='center' class='esd-block-image' style='font-size: 0px;'><img class='adapt-img' src='https://www.foebbva.com/skins/page/images/header/logo.png' alt='Logo del FOE' style='display: block;' width='292' title='Logo del FOE'></td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<table cellpadding='0' cellspacing='0' class='es-content' align='center'>
+						<tbody>
+							<tr>
+								<td class='esd-stripe' align='center' esd-custom-block-id='1105819'>
+									<table bgcolor='#ffffff' class='es-content-body' align='center' cellpadding='0' cellspacing='0' width='600'>
+										<tbody>
+											<tr>
+												<td class='esd-structure es-p30t es-p20b es-p20r es-p20l' align='left'>
+													<table cellpadding='0' cellspacing='0' width='100%'>
+														<tbody>
+															<tr>
+																<td width='560' class='esd-container-frame' align='center' valign='top'>
+																	<table cellpadding='0' cellspacing='0' width='100%'>
+																		<tbody>
+																			<tr>
+																				<td align='center' class='esd-block-text' style='background-color:#80c341;color:#FFF'>
+																					<h3 style='margin-top:5px;margin-bottom:5px;'>Compra No. " . $orden . "V</h3>
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+											</tr>
+  
+  ";
 
     $mensaje .= $mensajeProductos;
 
-    $mensaje .= "	
+    /*     $mensaje .= "	
 	<tr>
 		<td></td>
 		<td></td>
@@ -189,44 +338,197 @@ class Page_compraController extends Page_mainController
 	</tr>
 
 </table>
-<br /><br />";
+<br /><br />"; */
+    $mensaje .= "	
+<tr style='padding-top:10px;padding-bottom:10px; display:grid;'>
+												<td class='esd-structure es-p20' align='left' esd-custom-block-id='1105821' esdev-config='h1'>
+
+													<table cellpadding='0' cellspacing='0' class='es-left' align='left'>
+														<tbody>
+															<tr>
+																<td width='270' class='es-m-p20b esd-container-frame' align='left'>
+																	<table cellpadding='0' cellspacing='0' width='100%'>
+																		<tbody>
+																			<tr>
+																				<td align='center' class='esd-block-image' style='font-size: 0px;'></td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+
+													<table cellpadding='0' cellspacing='0' class='es-right' align='right'>
+														<tbody>
+															<tr>
+																<td width='270' align='left' class='esd-container-frame'>
+																	<table cellpadding='0' cellspacing='0' width='100%'>
+																		<tbody>
+																			<tr>
+																				<td align='left' class='esd-block-text'>
+																					<h3 style='color: #3a599b;margin-bottom:5px;margin-top:5px;' class='p_name'>Total</h3>
+																				</td>
+																			</tr>
 
 
-    $asunto = " COMPRA " . $orden . "V TIENDA VIRTUAL FOEBBVA";
 
-    $bono = "<div style=\"border:1px solid #000000; padding:5px;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
-  <tr>
-    <td><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
-      <tr>
-        <td><img src=\"https://tienda.foebbva.com/corte/logo60.png\" height=\"77\" /></td>
-        <td class=\"textoNegro\"><div align=\"center\"><strong>DOCUMENTO AUTORIZACI&Oacute;N DE DESCUENTO No. " . $orden . "V</strong></div></td>
-      </tr>
-    </table></td>
-  </tr>\r\n
-  <tr>
-    <td></td>
-  </tr>\r\n
-  <tr>
-    <td><p align=\"justify\" class=\"textoNegro\">Yo <span style=\"text-decoration:underline;\">" . $nombre . "</span> identificado (a) con cedula de ciudadan&iacute;a n&uacute;mero <span style=\"text-decoration:underline;\">" . $usuario . "</span> de <span style=\"text-decoration:underline;\">" . $ciudad . "</span>, autorizo al pagador de la empresa donde laboro y que determina mi vinculo de asociaci&oacute;n con el Fondo de Empleados BBVA, a descontar por n&oacte;mina o d&eacte;bito autom&aacte;tico el valor de <span style=\"text-decoration:underline;\">$ " . (number_format($valor, 0)) . "</span> en ( <span style=\"text-decoration:underline;\">" . $cuotas . "</span> ) cuotas mensuales. En caso de m&iacute; desvinculaci&oacute;n laboral, autorizo descontar de mi liquidaci&oacute;n final de prestaciones sociales y dem&aacute;s beneficios que me liquiden a mi favor.\r\n As&iacute; mismo en caso de no presentarse el descuento en mi desprendible de n&oacute;mina autorizo descontar el saldo de mi cuenta de n&oacute;mina registrada en el FOE. En el caso de asociados independientes se cargara en su pr&oacute;xima cuenta de cobro.</p>
-    </td>
-  </tr>
-</table></div>";
+																			<tr>
+																				<td align='left' class='esd-block-text es-p10t es-p15b'>
+																					<h2 style='color: #3a599b;margin-bottom:5px;margin-top:5px; font-size: 25px;' class='p_price'>$ " . (number_format($valor, 0)) . "</h2>
+																				</td>
+																			</tr>
 
-    $mensaje .= $bono;
+																		</tbody>
+																	</table>
+																</td>
+															</tr>
+														</tbody>
+													</table>
+
+												</td>
+											</tr>
+                      </tbody>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+          <table cellpadding='0' cellspacing='0' class='es-footer' align='center'>
+						<tbody>
+							<tr>
+								<td class='esd-stripe' align='center' esd-custom-block-id='1105822'>
+									<table class='es-footer-body' width='600' cellspacing='0' cellpadding='0' bgcolor='#ffffff' align='center'>
+										<tbody>
+
+											<tr>
+												<td class='esd-structure es-p30b es-p20r es-p20l' align='left'>
+
+													<table cellpadding='0' cellspacing='0' class='es-left' align='left'>
+														<tbody>
+															<tr>
+																<td width='100%' class='es-m-p20b esd-container-frame' align='left'>
+																	<table cellpadding='0' cellspacing='0' width='100%'>
+																		<tbody>
+																			<tr>
+																				<td align='left' class='esd-block-text es-m-txt-c'>
+																					<p align='justify' class='textoNegro'>Yo <span style='text-decoration:underline;'>" . $nombre . "</span> identificado (a) con cedula de ciudadanía número <span style='text-decoration:underline;'>" . $usuario . "</span> de " . $ciudad . "<span style='text-decoration:underline;'></span>, autorizo al pagador de la empresa donde laboro y que determina mi vinculo de asociación con el Fondo de Empleados BBVA, a a descontar por n&oacute;mina o d&eacute;bito autom&aacute;tico el valor de <span style='text-decoration:underline;'>$ " . (number_format($valor, 0)) . "</span> en ( <span style='text-decoration:underline;'>" . $cuotas . "</span> ) cuotas mensuales. En caso de mí desvinculación laboral, autorizo descontar de mi liquidación final de prestaciones sociales y demás beneficios que me liquiden a mi favor.
+																						Así mismo en caso de no presentarse el descuento en mi desprendible de nómina autorizo descontar el saldo de mi cuenta de nómina registrada en el FOE. En el caso de asociados independientes se cargara en su próxima cuenta de cobro.</p>
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</td>
+															</tr>";
+
+
+
+    //     $bono = "<div style=\"border:1px solid #000000; padding:5px;\"><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+    //   <tr>
+    //     <td><table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">
+    //       <tr>
+    //         <td><img src=\"https://tienda.foebbva.com/corte/logo60.png\" height=\"77\" /></td>
+    //         <td class=\"textoNegro\"><div align=\"center\"><strong>DOCUMENTO AUTORIZACI&Oacute;N DE DESCUENTO No. " . $orden . "V</strong></div></td>
+    //       </tr>
+    //     </table></td>
+    //   </tr>\r\n
+    //   <tr>
+    //     <td></td>
+    //   </tr>\r\n
+    //   <tr>
+    //     <td><p align=\"justify\" class=\"textoNegro\">Yo <span style=\"text-decoration:underline;\">" . $nombre . "</span> identificado (a) con cedula de ciudadan&iacute;a n&uacute;mero <span style=\"text-decoration:underline;\">" . $usuario . "</span> de <span style=\"text-decoration:underline;\">" . $ciudad . "</span>, autorizo al pagador de la empresa donde laboro y que determina mi vinculo de asociaci&oacute;n con el Fondo de Empleados BBVA, a descontar por n&oacute;mina o d&eacute;bito autom&aacute;tico el valor de <span style=\"text-decoration:underline;\">$ " . (number_format($valor, 0)) . "</span> en ( <span style=\"text-decoration:underline;\">" . $cuotas . "</span> ) cuotas mensuales. En caso de m&iacute; desvinculaci&oacute;n laboral, autorizo descontar de mi liquidaci&oacute;n final de prestaciones sociales y dem&aacute;s beneficios que me liquiden a mi favor.\r\n As&iacute; mismo en caso de no presentarse el descuento en mi desprendible de n&oacute;mina autorizo descontar el saldo de mi cuenta de n&oacute;mina registrada en el FOE. En el caso de asociados independientes se cargara en su pr&oacute;xima cuenta de cobro.</p>
+    //     </td>
+    //   </tr>
+    // </table></div>";
+
+    // $mensaje .= $bono;
 
     $boton_azul = "background:#01508A; color:#FFF; font-size:12px; padding:5px 12px; text-decoration:none; max-width:200px; border-bottom:1px solid #FFFFFF; border-radius:4px;";
 
     $pagareMensaje = "<br /><br /><br />
 <a href=\"https://tienda.foebbva.com/pdf.php?orden=" . $orden . "\" style='" . $boton_azul . "'>IMPRIMIR PAGAR&Eacute; Y CARTA DE INSTRUCCIONES</a>
 ";
+    $boton_azul = "
+<tr>
+																<td width='100%' class='es-m-p20b esd-container-frame' align='left'>
+																	<table cellpadding='0' cellspacing='0' width='100%'>
+																		<tbody>
+																			<tr>
+																				<td align='left' class='esd-block-text es-m-txt-c'>
+																					<br>
+																					<a href='https://tienda.foebbva.com/pdf.php?orden=" . $orden . "' style='" . $boton_azul . "'>IMPRIMIR PAGAR&Eacute; Y CARTA DE INSTRUCCIONES</a>
+																				</td>
+																			</tr>
+																		</tbody>
+																	</table>
+																</td>
+															</tr>";
+
 
     $mensaje .= $pagareMensaje;
 
     if ($pagare != '') {
-      $mensaje = $mensaje . "<br /><br />¿Tiene Pagare Firmado? <strong>Si. tiene firmado el pagare No. " . $pagare . "</strong>";
+      // $mensaje = $mensaje . "<br /><br />¿Tiene Pagare Firmado? <strong>Si. tiene firmado el pagare No. " . $pagare . "</strong>";
+      $mensaje = $mensaje . "
+      <tr>
+      <td width='100%' class='es-m-p20b esd-container-frame' align='left'>
+        <table cellpadding='0' cellspacing='0' width='100%'>
+          <tbody>
+            <tr>
+              <td align='left' class='esd-block-text es-m-txt-c'>
+                <br>
+               
+
+                ¿Tiene Pagare Firmado?: <strong>Si. tiene firmado el pagare No. " . $pagare . "</strong>
+
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>";
     } else {
-      $mensaje = $mensaje . "<br /><br />Tiene Pagare Firmado?: <strong>El asociado no tiene pagare firmado.</strong>";
+      // $mensaje = $mensaje . "<br /><br />Tiene Pagare Firmado?: <strong>El asociado no tiene pagare firmado.</strong>";
+      $mensaje = $mensaje . "
+      <tr>
+      <td width='100%' class='es-m-p20b esd-container-frame' align='left'>
+        <table cellpadding='0' cellspacing='0' width='100%'>
+          <tbody>
+            <tr>
+              <td align='left' class='esd-block-text es-m-txt-c'>
+                <br>
+             
+
+                ¿Tiene Pagare Firmado?: <strong>El asociado no tiene pagare firmado.</strong>
+
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>";
     }
+    $mensaje .= "</tbody>
+    </table>
+
+  </td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+
+</td>
+</tr>
+</tbody>
+</table>
+</div>";
+
+    $asunto = " COMPRA " . $orden . "V TIENDA VIRTUAL FOEBBVA";
 
     // Muestra el mensaje
     // echo $mensaje;
@@ -246,6 +548,14 @@ class Page_compraController extends Page_mainController
     $emailModel->getMail()->addBCC("soporteomega@omegawebsystems.com", "Notificaciones FOE");
     // $emailModel->getMail()->addBCC("desarrollo8@omegawebsystems.com", "Notificaciones FOE");
 
+
+    $infopageModel = new Page_Model_DbTable_Informacion();
+
+    $informacion = $infopageModel->getById(1);
+    $correosCopia = $informacion->info_pagina_correos_contacto;
+
+
+
     //ENVIO API
     $token = $this->conectar2();
     $data["mailCc"] = "tiendavirtualfoe@foebbva.com";
@@ -253,7 +563,7 @@ class Page_compraController extends Page_mainController
     $data["certimail"] = "CNC";
     $data["richContent"] = "" . $mensaje;
     //$data["mailTo"] = "solicitudcreditosfoe@foebbva.com";
-    $data["bcc"] = "soporteomega@omegawebsystems.com,desarrollo8@omegawebsystems.com";
+    $data["bcc"] = $correosCopia;
     //print_r($data);
     $result = $this->enviar($data, $token);
     if ($result == "-1" or $result == "" or $result == NULL) {

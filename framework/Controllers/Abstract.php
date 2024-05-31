@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 abstract class Controllers_Abstract
 {
-	protected $_response;
+    protected $_response;
     protected $_request;
     protected $_routes;
     protected $_view;
@@ -21,26 +21,31 @@ abstract class Controllers_Abstract
         $controller = $this->getRoutes()->getController();
         $view = $this->getRoutes()->getAction();
         $csrf = $this->_getSanitizedParam("csrf");
-        if ($this->_getSanitizedParam("csrf") == '' ) {
+        if ($this->_getSanitizedParam("csrf") == '') {
             $this->_csrf = new Core_Model_Csrf($this->_csrf_section);
         }
-        $this->_viewFilename = APP_PATH.'/modules/'.$module.'/Views/'.$controller.'/'.$view.'.php';
+        if ($module == 'administracion' && $controller != '' && $controller != 'index') {
+            if ($_SESSION['kt_login_id'] != '') {
+                $this->_viewFilename = APP_PATH . '/modules/' . $module . '/Views/' . $controller . '/' . $view . '.php';
+            }
+        } else {
+            $this->_viewFilename = APP_PATH . '/modules/' . $module . '/Views/' . $controller . '/' . $view . '.php';
+        }
         $this->_view = new View();
         $this->init();
     }
     public function init()
     {
-
     }
 
     protected function _getSanitizedParam($name, $value = null)
     {
         $currentValue = $this->getRequest()->_getParam($name, $value);
-        $currentValue = addslashes($currentValue);
-        $currentValue = strip_tags($currentValue);
         $currentValue = trim($currentValue);
-        $currentValue = htmlentities($currentValue);
-
+        $currentValue = stripslashes($currentValue);
+        $currentValue = htmlspecialchars($currentValue, ENT_QUOTES, 'UTF-8');
+        $currentValue = strip_tags($currentValue);
+        $currentValue = preg_replace('/[\x00-\x1F\x7F]/u', '', $currentValue);
         return $currentValue;
     }
 
@@ -78,7 +83,7 @@ abstract class Controllers_Abstract
     public function getRoutes()
     {
         return $this->_routes;
-    } 
+    }
 
     public function setResponse($res)
     {
@@ -97,14 +102,14 @@ abstract class Controllers_Abstract
 
     public function render()
     {
-       
-        if (null != $this->_layout) { 
+
+        if (null != $this->_layout) {
             $this->_layout->setView($this->_view);
             return $this->_layout->render($this->_viewFilename);
         }
         return $this->_view->render($this->_viewFilename);
     }
-    
+
     public function setLayout($layoutName)
     {
         $this->_layout = new Layout($layoutName);
@@ -112,7 +117,6 @@ abstract class Controllers_Abstract
 
     public function getLayout()
     {
-        return $this->_layout ;
+        return $this->_layout;
     }
-
 }

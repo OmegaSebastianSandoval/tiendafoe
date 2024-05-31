@@ -121,7 +121,37 @@
 				</div>
 			</div>
 		</div>
-
+		<a id="fechas" name="fechas"></a>
+		<div class="div-dashboard">
+			<h2>
+				<img src="/skins/administracion/images/informaciondecotactenos.png"> Fecha de apertura y cierre
+			</h2>
+			<div class="pading-dashboard">
+				<br>
+				<div class="row">
+					<div class="col-6 form-group">
+						<label for="info_pagina_fechacierre" class="form-label">Fecha de cierre:</label>
+						<div class="input-group">
+							<div class="input-group-prepend ">
+								<span class="input-group-text input-icono fondo-telefono"></span>
+							</div>
+							<input name="info_pagina_fechacierre" id="info_pagina_fechacierre" class="form-control" type="datetime-local" value="<?= $this->content->info_pagina_fechacierre; ?>"/>
+						</div>
+					</div>
+					<div class="col-6 form-group">
+						<label for="info_pagina_fechaapertura" class="form-label">Fecha de apertura:</label>
+						<div class="input-group">
+							<div class="input-group-prepend ">
+								<span class="input-group-text input-icono fondo-correo"></span>
+							</div>
+							<input name="info_pagina_fechaapertura" id="info_pagina_fechaapertura" class="form-control" type="datetime-local" value="<?= $this->content->info_pagina_fechaapertura; ?>"/>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
 		<a id="contactenos" name="contactenos"></a>
 		<div class="div-dashboard">
 			<h2>

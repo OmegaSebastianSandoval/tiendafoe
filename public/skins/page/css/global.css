@@ -798,6 +798,7 @@ header .container .mobile_nav .burger .bottom {
   color: #FFF;
 }
 
+
 .products-grid {
 
   padding: 0;
@@ -808,6 +809,18 @@ header .container .mobile_nav .burger .bottom {
   gap: 20px;
 }
 
+.content-products .accordion-button:not(.collapsed){
+  color: var(--verde);
+  font-weight: 600;
+  background-color: #80c34124;
+  box-shadow: 0 0 0 0.25rem #80c3414a;
+}
+
+.content-products .accordion-button:focus
+{
+  
+  box-shadow: 0 0 0 0.25rem #80c3414a;
+}
 /* *********************
   CARDS PRODUCTOS INICIO
   ************************* */

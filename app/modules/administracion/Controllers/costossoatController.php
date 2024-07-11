@@ -4,6 +4,8 @@
 */
 class Administracion_costossoatController extends Administracion_mainController
 {
+	public $botonpanel = 17;
+
 	/**
 	 * $mainModel  instancia del modelo de  base de datos costossoat
 	 * @var modeloContenidos
@@ -100,8 +102,6 @@ class Administracion_costossoatController extends Administracion_mainController
 		$this->_view->page = $page;
 		$this->_view->lists = $this->mainModel->getListPages($filters,$order,$start,$amount);
 		$this->_view->csrf_section = $this->_csrf_section;
-		$this->_view->list_clase = $this->getClase();
-		$this->_view->list_subtipo = $this->getSubtipo();
 	}
 
 	/**
@@ -116,8 +116,6 @@ class Administracion_costossoatController extends Administracion_mainController
 		$this->_csrf->generateCode($this->_csrf_section);
 		$this->_view->csrf_section = $this->_csrf_section;
 		$this->_view->csrf = Session::getInstance()->get('csrf')[$this->_csrf_section];
-		$this->_view->list_clase = $this->getClase();
-		$this->_view->list_subtipo = $this->getSubtipo();
 		$id = $this->_getSanitizedParam("id");
 		if ($id > 0) {
 			$content = $this->mainModel->getById($id);
@@ -224,32 +222,6 @@ class Administracion_costossoatController extends Administracion_mainController
 		$data['valor'] = $this->_getSanitizedParam("valor");
 		return $data;
 	}
-
-	/**
-     * Genera los valores del campo clase.
-     *
-     * @return array cadena con los valores del campo clase.
-     */
-	private function getClase()
-	{
-		$array = array();
-		$array['Data'] = 'Data';
-		return $array;
-	}
-
-
-	/**
-     * Genera los valores del campo subtipo.
-     *
-     * @return array cadena con los valores del campo subtipo.
-     */
-	private function getSubtipo()
-	{
-		$array = array();
-		$array['Data'] = 'Data';
-		return $array;
-	}
-
 	/**
      * Genera la consulta con los filtros de este controlador.
      *
@@ -264,13 +236,10 @@ class Administracion_costossoatController extends Administracion_mainController
                 $filtros = $filtros." AND codigo LIKE '%".$filters->codigo."%'";
             }
             if ($filters->clase != '') {
-                $filtros = $filtros." AND clase ='".$filters->clase."'";
+                $filtros = $filtros." AND clase LIKE '%".$filters->clase."%'";
             }
             if ($filters->subtipo != '') {
-                $filtros = $filtros." AND subtipo ='".$filters->subtipo."'";
-            }
-            if ($filters->antiguedad != '') {
-                $filtros = $filtros." AND antiguedad LIKE '%".$filters->antiguedad."%'";
+                $filtros = $filtros." AND subtipo LIKE '%".$filters->subtipo."%'";
             }
             if ($filters->valor != '') {
                 $filtros = $filtros." AND valor LIKE '%".$filters->valor."%'";
@@ -292,7 +261,6 @@ class Administracion_costossoatController extends Administracion_mainController
 					$parramsfilter['codigo'] =  $this->_getSanitizedParam("codigo");
 					$parramsfilter['clase'] =  $this->_getSanitizedParam("clase");
 					$parramsfilter['subtipo'] =  $this->_getSanitizedParam("subtipo");
-					$parramsfilter['antiguedad'] =  $this->_getSanitizedParam("antiguedad");
 					$parramsfilter['valor'] =  $this->_getSanitizedParam("valor");Session::getInstance()->set($this->namefilter, $parramsfilter);
         }
         if ($this->_getSanitizedParam("cleanfilter") == 1) {

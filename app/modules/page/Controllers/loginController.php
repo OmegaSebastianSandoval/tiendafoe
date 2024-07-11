@@ -35,8 +35,8 @@ Foe_tienda0210
       Session::getInstance()->set("error_login", "Usuario inactivo");
       Session::getInstance()->set("error_type", "danger");
     } elseif ($array->success == "1") {
-      Session::getInstance()->set("error_login", "Sesión iniciada correctamente");
-      Session::getInstance()->set("error_type", "success");
+      // Session::getInstance()->set("error_login", "Sesión iniciada correctamente");
+      // Session::getInstance()->set("error_type", "success");
 
       // Establecer datos de sesión
       Session::getInstance()->set("user", $user);

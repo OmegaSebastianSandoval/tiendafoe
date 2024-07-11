@@ -7,6 +7,12 @@
       </a>
     </li>
   <?php } ?>
+  <li <?php if ($this->botonpanel == 16) { ?>class="activo" <?php } ?>>
+    <a href="/administracion/configuracion">
+    <i class="fa-solid fa-gears"></i>
+      Administrar Configuración
+    </a>
+  </li>
   <li <?php if ($this->botonpanel == 2) { ?>class="activo" <?php } ?>>
     <a href="/administracion/publicidad">
       <i class="far fa-images"></i>
@@ -67,12 +73,19 @@
       Listar Ordenes de Compra
     </a>
   </li>
+  <li <?php if ($this->botonpanel == 17) { ?>class="activo" <?php } ?>>
+    <a href="/administracion/costossoat">
+    <i class="fa-solid fa-money-bill"></i>
+      Costos SOAT
+    </a>
+  </li>
   <li <?php if ($this->botonpanel == 15) { ?>class="activo" <?php } ?>>
     <a href="/administracion/solicitudsoat">
-      <i class="fas fa-users"></i>
+    <i class="fa-solid fa-car"></i>
       Solicitudes SOAT
     </a>
   </li>
+  
   <li <?php if ($this->botonpanel == 13) { ?>class="activo" <?php } ?>>
     <a href="/administracion/usuariostienda">
       <i class="fas fa-users"></i>

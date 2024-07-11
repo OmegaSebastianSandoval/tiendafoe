@@ -29,6 +29,21 @@
 
         </li>
     <?php } ?>
+   <?php if($this->categoriaSoat && $this->categoriaSoat->activa == 1){?>
+    <li class="<?php echo $this->idCategoria === 'soat' ? 'active' : '' ?>">
+            <div>
+                <a href="/page/soat">
+                    <?= $this->categoriaSoat->nombre ?>
+                </a>
+              
+
+            </div>
+
+
+        </li>
+    <?php } ?>
+
+
 </ul>
 
 

@@ -8,8 +8,8 @@
 				<input type="hidden" name="id" id="id" value="<?= $this->content->id; ?>" />
 			<?php }?>
 			<div class="row">
-				<div class="col-12 form-group">
-					<label for="codigo"  class="control-label">codigo</label>
+				<div class="col-4 form-group">
+					<label for="codigo"  class="control-label">código</label>
 					<label class="input-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text input-icono  fondo-cafe " ><i class="fas fa-pencil-alt"></i></span>
@@ -18,51 +18,41 @@
 					</label>
 					<div class="help-block with-errors"></div>
 				</div>
-				<div class="col-12 form-group">
-					<label class="control-label">clase</label>
+				<div class="col-4 form-group">
+					<label for="clase"  class="control-label">clase</label>
 					<label class="input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text input-icono  fondo-verde " ><i class="far fa-list-alt"></i></span>
+							<span class="input-group-text input-icono  fondo-rojo-claro " ><i class="fas fa-pencil-alt"></i></span>
 						</div>
-						<select class="form-control" name="clase"  required >
-							<option value="">Seleccione...</option>
-							<?php foreach ($this->list_clase AS $key => $value ){?>
-								<option <?php if($this->getObjectVariable($this->content,"clase") == $key ){ echo "selected"; }?> value="<?php echo $key; ?>" /> <?= $value; ?></option>
-							<?php } ?>
-						</select>
+						<input type="text" value="<?= $this->content->clase; ?>" name="clase" id="clase" class="form-control"  required >
 					</label>
 					<div class="help-block with-errors"></div>
 				</div>
-				<div class="col-12 form-group">
-					<label class="control-label">subtipo</label>
+				<div class="col-4 form-group">
+					<label for="subtipo"  class="control-label">subtipo</label>
 					<label class="input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text input-icono  fondo-azul-claro " ><i class="far fa-list-alt"></i></span>
+							<span class="input-group-text input-icono  fondo-morado " ><i class="fas fa-pencil-alt"></i></span>
 						</div>
-						<select class="form-control" name="subtipo"  required >
-							<option value="">Seleccione...</option>
-							<?php foreach ($this->list_subtipo AS $key => $value ){?>
-								<option <?php if($this->getObjectVariable($this->content,"subtipo") == $key ){ echo "selected"; }?> value="<?php echo $key; ?>" /> <?= $value; ?></option>
-							<?php } ?>
-						</select>
+						<input type="text" value="<?= $this->content->subtipo; ?>" name="subtipo" id="subtipo" class="form-control"  required >
 					</label>
 					<div class="help-block with-errors"></div>
 				</div>
-				<div class="col-12 form-group">
+				<div class="col-4 form-group">
 					<label for="antiguedad"  class="control-label">antiguedad</label>
 					<label class="input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text input-icono  fondo-azul " ><i class="fas fa-pencil-alt"></i></span>
+							<span class="input-group-text input-icono  fondo-verde-claro " ><i class="fas fa-pencil-alt"></i></span>
 						</div>
 						<input type="text" value="<?= $this->content->antiguedad; ?>" name="antiguedad" id="antiguedad" class="form-control"   >
 					</label>
 					<div class="help-block with-errors"></div>
 				</div>
-				<div class="col-12 form-group">
+				<div class="col-4 form-group">
 					<label for="valor"  class="control-label">valor</label>
 					<label class="input-group">
 						<div class="input-group-prepend">
-							<span class="input-group-text input-icono  fondo-rosado " ><i class="fas fa-pencil-alt"></i></span>
+							<span class="input-group-text input-icono  fondo-verde " ><i class="fas fa-pencil-alt"></i></span>
 						</div>
 						<input type="text" value="<?= $this->content->valor; ?>" name="valor" id="valor" class="form-control"  required >
 					</label>

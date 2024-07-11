@@ -119,4 +119,23 @@ abstract class Controllers_Abstract
     {
         return $this->_layout;
     }
+    public function getTiendaAbierta()
+	{
+		$configuracionModel = new Administracion_Model_DbTable_Configuracion();
+		$configuracion = $configuracionModel->getById(1);
+		// print_r($configuracion);
+		$fechaCierre = $configuracion->config_fechacierre;
+		$fechaApertura = $configuracion->config_fechaapertura;
+
+		$hoy = date("Y-m-d H:i:s");
+
+		if ($hoy >= $fechaApertura || $hoy <= $fechaCierre) {
+			$cerrada = 0;
+		} else {
+			$cerrada = 1;
+		}
+
+		return $cerrada;
+	}
+
 }

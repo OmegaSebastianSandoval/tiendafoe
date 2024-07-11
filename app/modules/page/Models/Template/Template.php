@@ -7,6 +7,8 @@ class Page_Model_Template_Template
 {
 
 	protected $_view;
+    protected $_request;
+
 
 	function __construct($view)
 	{
@@ -134,7 +136,8 @@ class Page_Model_Template_Template
 	{
 		// Instanciación del modelo de productos.
 		$productosModel = new Page_Model_DbTable_Productos();
-
+		
+		
 		// Creación del filtro SQL basado en los parámetros de entrada.
 		$filtro = $this->crearFiltro([
 			'categoria' => $_GET['categoria'] ?? '',
@@ -167,7 +170,7 @@ class Page_Model_Template_Template
 		$this->_view->totalpages = ceil(count($productos) / $amount);
 
 		$this->_view->listPages = $productosModel->getProductosPages("productos.activo = '1' $filtro", $orden, $start, $amount);
-		
+
 		// Devolución de la vista con los productos listados.
 		return $this->_view->getRoutPHP("modules/page/Views/template/productos.php");
 	}
@@ -226,11 +229,13 @@ class Page_Model_Template_Template
 	public function categorias($categoria = '')
 	{
 		$categoriasModel = new Administracion_Model_DbTable_Categorias();
-		$categorias = $categoriasModel->getList("activa = '1' AND padre = '0'", "nombre ASC");
+		$categorias = $categoriasModel->getList("activa = '1' AND padre = '0' AND nombre != 'SOAT'", "nombre ASC");
+		$categoriaSoat = $categoriasModel->getList("activa = '1' AND padre = '0' AND nombre = 'SOAT'", "nombre ASC")[0];
 		foreach ($categorias as $categoria) {
 			$categoria->subcategorias = $categoriasModel->getList("activa = '1' AND padre = '$categoria->id'", "nombre ASC");
 		}
 		$this->_view->listcategorias = $categorias;
+		$this->_view->categoriaSoat = $categoriaSoat;
 
 
 
@@ -275,7 +280,7 @@ class Page_Model_Template_Template
 			$enlace .= $cat ? "&sub=$subCat" : "?sub=$subCat";
 		}
 		$this->_view->enlace = $enlace;
-		
+
 
 		$this->_view->producto = $producto;
 		$this->_view->marca = $marca;
@@ -303,4 +308,19 @@ class Page_Model_Template_Template
 
 		return $this->_view->getRoutPHP("modules/page/Views/template/bannerprincipal.php");
 	}
+	protected function _getSanitizedParam($name, $value = null)
+    {
+        $currentValue = $this->getRequest()->_getParam($name, $value);
+        $currentValue = trim($currentValue);
+        $currentValue = stripslashes($currentValue);
+        $currentValue = htmlspecialchars($currentValue, ENT_QUOTES, 'UTF-8');
+        $currentValue = strip_tags($currentValue);
+        $currentValue = preg_replace('/[\x00-\x1F\x7F]/u', '', $currentValue);
+        return $currentValue;
+    }
+	public function getRequest()
+    {
+        return $this->_request;
+    }
+
 }

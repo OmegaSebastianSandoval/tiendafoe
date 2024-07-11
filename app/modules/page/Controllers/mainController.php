@@ -25,6 +25,13 @@ class Page_mainController extends Controllers_Abstract
 		}
 
 		if (Session::getInstance()->get("user")) {
+
+
+			$cerrada = $this->getTiendaAbierta();
+			if ($cerrada == 1) {
+				header("Location:/page/login/logout");
+			}
+			
 			// Inicializar modelos
 			$usuarioModel = new Administracion_Model_DbTable_Usuariostienda();
 			$itemsModel = new Administracion_Model_DbTable_Listarcompras();
@@ -61,18 +68,10 @@ class Page_mainController extends Controllers_Abstract
 			$this->_view->contenidoSinCupo = $contenidoSinCupo;
 
 			$contenidoSinCupo->contenido_introduccion = str_replace('[ENLACE]', '<a href="https://creditos.foebbva.com/page/sistema/?tienda=1" target="_blank" >modulo de solicitud de cr&eacute;ditos.</a>', $contenidoSinCupo->contenido_introduccion);
-		
-		
-			
 		}
 
-		//TODO: 
-		//1. crear modulo para gestionar la fecha y mensaje
 
-		$hoy = date("Y-m-d H:i:s");
-		if ($hoy < "2023-12-23 23:59:59") {
-			header("Location:/");
-		}
+
 
 
 
@@ -93,7 +92,6 @@ class Page_mainController extends Controllers_Abstract
 		$this->getLayout()->setData("adicionales", $adicionales);
 		$this->usuario();
 	}
-
 
 	public function usuario()
 	{

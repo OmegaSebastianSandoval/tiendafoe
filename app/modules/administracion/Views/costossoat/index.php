@@ -4,56 +4,37 @@
         <div class="content-dashboard">
             <div class="row">
 				<div class="col-3">
-		            <label>codigo</label>
+		            <label>código</label>
 		            <label class="input-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text input-icono fondo-cafe " ><i class="fas fa-pencil-alt"></i></span>
+								<span class="input-group-text input-icono fondo-verde " ><i class="fas fa-pencil-alt"></i></span>
 							</div>
 		            <input type="text" class="form-control" name="codigo" value="<?php echo $this->getObjectVariable($this->filters, 'codigo') ?>"></input>
 		            </label>
 		        </div>
 				<div class="col-3">
-					<label>clase</label>
-	                <label class="input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text input-icono fondo-rosado " ><i class="far fa-list-alt"></i></span>
-						</div>
-	                    <select class="form-control" name="clase">
-	                        <option value="">Todas</option>
-	                        <?php foreach ($this->list_clase as $key => $value) : ?>
-	                            <option value="<?= $key; ?>" <?php if ($this->getObjectVariable($this->filters, 'clase') ==  $key) { echo "selected";} ?>><?= $value; ?></option>
-	                        <?php endforeach ?>
-	                    </select>
-	               </label>
-	            </div>
-				<div class="col-3">
-					<label>subtipo</label>
-	                <label class="input-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text input-icono fondo-azul " ><i class="far fa-list-alt"></i></span>
-						</div>
-	                    <select class="form-control" name="subtipo">
-	                        <option value="">Todas</option>
-	                        <?php foreach ($this->list_subtipo as $key => $value) : ?>
-	                            <option value="<?= $key; ?>" <?php if ($this->getObjectVariable($this->filters, 'subtipo') ==  $key) { echo "selected";} ?>><?= $value; ?></option>
-	                        <?php endforeach ?>
-	                    </select>
-	               </label>
-	            </div>
-				<div class="col-3">
-		            <label>antiguedad</label>
+		            <label>clase</label>
 		            <label class="input-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text input-icono fondo-morado " ><i class="fas fa-pencil-alt"></i></span>
+								<span class="input-group-text input-icono fondo-rosado " ><i class="fas fa-pencil-alt"></i></span>
 							</div>
-		            <input type="text" class="form-control" name="antiguedad" value="<?php echo $this->getObjectVariable($this->filters, 'antiguedad') ?>"></input>
+		            <input type="text" class="form-control" name="clase" value="<?php echo $this->getObjectVariable($this->filters, 'clase') ?>"></input>
+		            </label>
+		        </div>
+				<div class="col-3">
+		            <label>subtipo</label>
+		            <label class="input-group">
+							<div class="input-group-prepend">
+								<span class="input-group-text input-icono fondo-cafe " ><i class="fas fa-pencil-alt"></i></span>
+							</div>
+		            <input type="text" class="form-control" name="subtipo" value="<?php echo $this->getObjectVariable($this->filters, 'subtipo') ?>"></input>
 		            </label>
 		        </div>
 				<div class="col-3">
 		            <label>valor</label>
 		            <label class="input-group">
 							<div class="input-group-prepend">
-								<span class="input-group-text input-icono fondo-rojo-claro " ><i class="fas fa-pencil-alt"></i></span>
+								<span class="input-group-text input-icono fondo-morado " ><i class="fas fa-pencil-alt"></i></span>
 							</div>
 		            <input type="text" class="form-control" name="valor" value="<?php echo $this->getObjectVariable($this->filters, 'valor') ?>"></input>
 		            </label>
@@ -114,10 +95,9 @@
 		<table class=" table table-striped  table-hover table-administrator text-left">
 			<thead>
 				<tr>
-					<td>codigo</td>
+					<td>código</td>
 					<td>clase</td>
 					<td>subtipo</td>
-					<td>antiguedad</td>
 					<td>valor</td>
 					<td width="100"></td>
 				</tr>
@@ -127,9 +107,8 @@
 				<?php $id =  $content->id; ?>
 					<tr>
 						<td><?=$content->codigo;?></td>
-						<td><?= $this->list_clase[$content->clase];?>
-						<td><?= $this->list_subtipo[$content->subtipo];?>
-						<td><?=$content->antiguedad;?></td>
+						<td><?=$content->clase;?></td>
+						<td><?=$content->subtipo;?></td>
 						<td><?=$content->valor;?></td>
 						<td class="text-right">
 							<div>
